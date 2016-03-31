@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 import math
 
-def kleinberg(offsets, s=2, gamma=1):
+def kleinberg(offsets, s=2, gamma=1, duration=None):
 
 	if s <= 1:
 		raise ValueError("s must be greater than 1!")
@@ -26,6 +26,11 @@ def kleinberg(offsets, s=2, gamma=1):
 	T = np.sum(gaps)
 	n = np.size(gaps)
 	g_hat = T / n
+
+	# CLP - Here I am allowing the user to set a base emission rate so that the patterns between different streams can be directly compared
+	if duration:
+		T = duration
+		g_hat = duration # This is the assumption that the base rate is a SINGLE event over the whole Time Span
 
 	k = int(math.ceil(float(1 + math.log(T, s) + math.log(1 / np.amin(gaps), s))))
 
