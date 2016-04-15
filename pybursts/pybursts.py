@@ -34,13 +34,16 @@ def kleinberg(offsets, s=2, gamma=1, duration=None):
 
 	k = int(math.ceil(float(1 + math.log(T, s) + math.log(1 / np.amin(gaps), s))))
 
-	gamma_log_n = gamma * math.log(n)
+	# Here I am fixing the cost function so that it is independent of the number of messages    
+	#gamma_log_n = gamma * math.log(n)
+
 
 	def tau(i, j):
 		if i >= j:
 			return 0
 		else:
-			return (j - i) * gamma_log_n
+			#return (j - i) * gamma_log_n
+			return (j-i)*gamma
 	
 	alpha_function = np.vectorize(lambda x: s ** x / g_hat)
 	alpha = alpha_function(np.arange(k))
